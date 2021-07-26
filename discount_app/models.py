@@ -11,7 +11,7 @@ class Product(models.Model):
     name = models.CharField("Название продукта", max_length=100)
     image = models.TextField("Ссылка на картинку продукта")
     description = models.TextField("Описание продукта")
-    active = models.BooleanField(verbose_name="Продукт активен?", default=True)
+    active = models.BooleanField(verbose_name="Продукт активен ?", default=True)
     working_time = models.CharField("Режим работы", max_length=50)
 
 

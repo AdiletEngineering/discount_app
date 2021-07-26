@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'discount_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'discount_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',

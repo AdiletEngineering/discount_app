@@ -5,14 +5,28 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField("Название категории", max_length=50)
 
+    def __str__(self):
+        return self.name
+
+
+class Term(models.Model):
+    description = models.TextField("Условия скидки")
+
+    def __str__(self):
+        return self.description
+
 
 class Product(models.Model):
     categories = models.ForeignKey(to=Category, on_delete=models.DO_NOTHING)
+    terms = models.ForeignKey(to=Term, on_delete=models.DO_NOTHING)
     name = models.CharField("Название продукта", max_length=100)
     image = models.TextField("Ссылка на картинку продукта")
     description = models.TextField("Описание продукта")
     active = models.BooleanField(verbose_name="Продукт активен ?", default=True)
     working_time = models.CharField("Режим работы", max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 class Discount(models.Model):

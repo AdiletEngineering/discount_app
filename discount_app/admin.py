@@ -1,39 +1,40 @@
 from django.contrib import admin
 from .models import *
-# Register your models here.
+
+
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
-class TermAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description')
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'image', 'description', 'active', 'working_time')
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'categories', 'terms', 'name', 'image', 'description', 'active', 'working_time')
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'phone_number')
 
 class DiscountAdmin(admin.ModelAdmin):
-    list_display = ('id', 'products', 'value', 'start_date', 'end_date')
+    list_display = ('id', 'categories', 'companies', 'views_count', 'value', 'terms', 'is_active_every_day', 'start_date', 'end_date')
 
 class PhoneAdmin(admin.ModelAdmin):
-    list_display = ('id', 'products', 'number', 'type')
+    list_display = ('id', 'companies', 'number', 'type')
 
 class SocialAdmin(admin.ModelAdmin):
-    list_display = ('id', 'products', 'name', 'image', 'link')
+    list_display = ('id', 'companies', 'name', 'image', 'link')
 
-class ViewAdmin(admin.ModelAdmin):
-    list_display = ('id', 'products', 'count')
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('id', 'users', 'discounts', 'text')
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('id', 'products', 'city', 'street', 'house', 'latitude', 'longitude')
+    list_display = ('id', 'companies', 'city', 'street', 'house', 'latitude', 'longitude')
 
 
 
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Term, TermAdmin)
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Company, CompanyAdmin)
+admin.site.register(User, UserAdmin)
 admin.site.register(Discount, DiscountAdmin)
 admin.site.register(Phone, PhoneAdmin)
 admin.site.register(Social, SocialAdmin)
-admin.site.register(View, ViewAdmin)
+admin.site.register(Review, ReviewAdmin)
 admin.site.register(Address, AddressAdmin)
 

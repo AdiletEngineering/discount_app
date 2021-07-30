@@ -9,19 +9,11 @@ class Category(models.Model):
         return self.name
 
 
-class Term(models.Model):
-    description = models.TextField("Условия скидки")
 
-    def __str__(self):
-        return self.description
-
-
-class Product(models.Model):
-    categories = models.ForeignKey(to=Category, on_delete=models.DO_NOTHING)
-    terms = models.ForeignKey(to=Term, on_delete=models.DO_NOTHING)
-    name = models.CharField("Название продукта", max_length=100)
-    image = models.TextField("Ссылка на картинку продукта")
-    description = models.TextField("Описание продукта")
+class Company(models.Model):
+    name = models.CharField("Название компании", max_length=100)
+    image = models.TextField("Ссылка на картинку компании")
+    description = models.TextField("Описание компании")
     active = models.BooleanField(verbose_name="Продукт активен ?", default=True)
     working_time = models.CharField("Режим работы", max_length=50)
 
@@ -29,35 +21,65 @@ class Product(models.Model):
         return self.name
 
 
+
+class User(models.Model):
+    name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
+
 class Discount(models.Model):
-    products = models.ForeignKey(to=Product, on_delete=models.DO_NOTHING)
+    categories = models.ForeignKey(to=Category, on_delete=models.DO_NOTHING, related_name='discounts')
+    companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='discounts1')
+    views_count = models.IntegerField("Количество просмотров")
     value = models.IntegerField("Процент скидки")
-    start_date = models.DateField(auto_now_add=True)
-    end_date = models.DateField(default=datetime(year=2999, month=12, day=31))
+    terms= models.TextField("Условия скидки")
+    is_active_every_day = models.TextField("акция действует каждый день?")
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return self.companies
+
 
 
 class Phone(models.Model):
-    products = models.ForeignKey(to=Product, on_delete=models.DO_NOTHING)
+    companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='phones')
     number = models.CharField("Номер телефона", max_length=10)
     type = models.CharField("Whatsapp or Telegram", max_length=20)
 
+    def __str__(self):
+        return self.number
+
+
 
 class Social(models.Model):
-    products = models.ForeignKey(to=Product, on_delete=models.DO_NOTHING)
+    companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='socials')
     name = models.CharField("Название соц сети", max_length=50)
     image = models.TextField("Ссылка на картинку социальной сети")
     link = models.TextField("Ссылка для перехода в текущую соц сеть")
 
+    def __str__(self):
+        return self.name
 
-class View(models.Model):
-    products = models.ForeignKey(to=Product, on_delete=models.DO_NOTHING)
-    count = models.IntegerField("Счетчик просмотров")
+
+
+class Review(models.Model):
+    users = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name='reviews')
+    discounts = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='reviews1')
+    text = models.TextField("Текст отзыва")
+
 
 
 class Address(models.Model):
-    products = models.ForeignKey(to=Product, on_delete=models.DO_NOTHING)
+    companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='addresses')
     city = models.CharField("Город", max_length=50)
     street = models.CharField("Улица", max_length=50)
     house = models.CharField("Дом", max_length=10)
     latitude = models.FloatField("Широта")
     longitude = models.FloatField("Долгота")
+
+

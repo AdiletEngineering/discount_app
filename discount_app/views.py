@@ -17,7 +17,7 @@ def discount_list(request):
         is_order_by_publish = request.query_params.get('order_by_publish')
         category = request.query_params.getlist('category')
 
-        discounts = Discount.objects.filter(companies__active=True)
+        discounts = Discount.objects.filter(active=True)
         if is_order_by_publish == "true":
             discounts = discounts.order_by('-start_date')
         if category:

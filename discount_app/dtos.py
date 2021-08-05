@@ -6,7 +6,7 @@ class DiscountListDto:
         self.name = discount.companies.name
         self.image = discount.companies.image
         self.description = discount.companies.description
-        self.city = Address.objects.filter(companies=discount.companies.id)
+        self.city = Address.objects.filter(companies=discount.companies.id).first().cities.name
         self.value = discount.value
         self.views_count = discount.views_count
 
@@ -24,6 +24,7 @@ class DiscountDetailDto:
         self.views_count = discount.views_count
         self.value = discount.value
         self.terms = discount.terms
+        self.is_active_every_day = discount.is_active_every_day
         self.name = discount.companies.name
         self.image = discount.companies.image
         self.description = discount.companies.description

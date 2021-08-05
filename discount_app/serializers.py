@@ -27,7 +27,7 @@ class DiscountListDtoSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=50)
     image = serializers.CharField(max_length=500)
     description = serializers.CharField(max_length=100)
-    city = AddressSer(many=True)
+    city = serializers.CharField(max_length=200)
     value = serializers.IntegerField()
     views_count = serializers.IntegerField()
 
@@ -37,6 +37,7 @@ class DiscountDetailDtoSerializer(serializers.Serializer):
     views_count = serializers.IntegerField()
     value = serializers.IntegerField()
     terms = serializers.CharField(max_length=500)
+    is_active_every_day = serializers.CharField(max_length=200)
     name = serializers.CharField(max_length=50)
     image = serializers.CharField(max_length=500)
     description = serializers.CharField(max_length=100)

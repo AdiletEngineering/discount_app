@@ -25,8 +25,9 @@ class SocialSer(serializers.ModelSerializer):
 
 class DiscountDetailDtoSerializer(serializers.Serializer):
     id = serializers.IntegerField()
-    value = serializers.IntegerField()
     views_count = serializers.IntegerField()
+    value = serializers.IntegerField()
+    terms = serializers.CharField(max_length=500)
     name = serializers.CharField(max_length=50)
     image = serializers.CharField(max_length=500)
     description = serializers.CharField(max_length=100)

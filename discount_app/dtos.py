@@ -22,8 +22,9 @@ def toDiscountListDto(discounts):
 class DiscountDetailDto:
     def __init__(self, discount):
         self.id = discount.id
-        self.value = discount.value
         self.views_count = discount.views_count
+        self.value = discount.value
+        self.terms = discount.terms
         self.name = discount.companies.name
         self.image = discount.companies.image
         self.description = discount.companies.description

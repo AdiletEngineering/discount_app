@@ -57,4 +57,7 @@ class DiscountSerializer(serializers.ModelSerializer):
 
 
 
-
+class ReviewSer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'

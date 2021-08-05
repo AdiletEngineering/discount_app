@@ -7,7 +7,6 @@ class DiscountListDto:
         self.image = discount.companies.image
         self.description = discount.companies.description
         self.city = Address.objects.filter(companies=discount.companies.id)
-        print(self.city, '-'*28)
         self.value = discount.value
         self.views_count = discount.views_count
 

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -29,3 +30,16 @@ def discount_detail(request, pk):
 
 
 
+@api_view(['GET', 'POST'])
+def review_create(request):
+    if request.method == 'GET':
+        reviews = Review.objects.all()
+        serializer = ReviewSer(reviews, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        new_review = request.data
+        serializer = ReviewSer(data = new_review)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

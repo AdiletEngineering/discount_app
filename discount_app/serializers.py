@@ -14,11 +14,12 @@ class AddressSer(serializers.ModelSerializer):
         model = Address
         fields = '__all__'
 
-class SocialSer(serializers.ModelSerializer):
 
+class SocialSer(serializers.ModelSerializer):
     class Meta:
         model = Social
         fields = "__all__"
+
 
 # сериалайзер для class DiscountDto
 class DiscountListDtoSerializer(serializers.Serializer):
@@ -45,24 +46,11 @@ class DiscountDetailDtoSerializer(serializers.Serializer):
     reviews = ReviewSer(many=True)
 
 
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = '__all__'
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
 
-
-class DiscountSerializer(serializers.ModelSerializer):
-    categories = CategorySerializer()
-    companies = CompanySerializer()
-    class Meta:
-        model = Discount
-        fields = '__all__'
 
 
 

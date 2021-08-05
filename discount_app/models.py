@@ -33,7 +33,7 @@ class User(models.Model):
 
 class Discount(models.Model):
     categories = models.ForeignKey(to=Category, on_delete=models.DO_NOTHING, related_name='discounts')
-    companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='discounts1')
+    companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='discounts')
     views_count = models.IntegerField("Количество просмотров")
     value = models.IntegerField("Процент скидки")
     terms= models.TextField("Условия скидки")

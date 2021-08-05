@@ -13,7 +13,16 @@ from .serializers import *
 @api_view(['GET', 'POST'])
 def discount_list(request):
     if request.method == 'GET':
-        discounts = Discount.objects.all()
+
+        is_order_by_publish = request.query_params.get('order_by_publish')
+        category = request.query_params.getlist('category')
+
+        discounts = Discount.objects.filter(companies__active=True)
+        if is_order_by_publish == "true":
+            discounts = discounts.order_by('-start_date')
+        if category:
+            discounts = discounts.filter(categories__id__in=category)
+
         dto_object = toDiscountListDto(discounts)
         serializer = DiscountListDtoSerializer(dto_object, many=True)
         return Response(serializer.data)
@@ -44,9 +53,12 @@ def review_create(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
 @api_view(['GET', 'POST'])
 def category_list(request):
     if request.method == 'GET':
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
+

@@ -2,15 +2,6 @@ from rest_framework import serializers
 from .models import *
 from .dtos import *
 
-# сериалайзер для class DiscountDto
-class DiscountListDtoSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    name = serializers.CharField(max_length=50)
-    image = serializers.CharField(max_length=500)
-    description = serializers.CharField(max_length=100)
-    city = serializers.CharField(max_length=50)
-    value = serializers.IntegerField()
-    views_count = serializers.IntegerField()
 
 class ReviewSer(serializers.ModelSerializer):
     class Meta:
@@ -28,6 +19,17 @@ class SocialSer(serializers.ModelSerializer):
     class Meta:
         model = Social
         fields = "__all__"
+
+# сериалайзер для class DiscountDto
+class DiscountListDtoSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=50)
+    image = serializers.CharField(max_length=500)
+    description = serializers.CharField(max_length=100)
+    city = AddressSer(many=True)
+    value = serializers.IntegerField()
+    views_count = serializers.IntegerField()
+
 
 class DiscountDetailDtoSerializer(serializers.Serializer):
     id = serializers.IntegerField()

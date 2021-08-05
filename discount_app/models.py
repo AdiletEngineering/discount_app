@@ -83,3 +83,5 @@ class Address(models.Model):
     longitude = models.FloatField("Долгота")
 
 
+    def __str__(self):
+        return self.city

@@ -1,19 +1,37 @@
 from .models import *
 
-class DiscountDto:
+class DiscountListDto:
     def __init__(self, discount):
         self.id = discount.id
         self.name = discount.companies.name
         self.image = discount.companies.image
         self.description = discount.companies.description
-        self.city = Address.objects.filter(companies=discount.companies.id)[0].city
+        self.city = Address.objects.filter(companies=discount.companies.id)
+        print(self.city, '-'*28)
         self.value = discount.value
         self.views_count = discount.views_count
 
-def toDiscountDto(discounts):
+def toDiscountListDto(discounts):
     list = []
     for discount in discounts:
-        discount_dto = DiscountDto(discount)
+        discount_dto = DiscountListDto(discount)
         list.append(discount_dto)
     return list
 
+
+class DiscountDetailDto:
+    def __init__(self, discount):
+        self.id = discount.id
+        self.value = discount.value
+        self.views_count = discount.views_count
+        self.name = discount.companies.name
+        self.image = discount.companies.image
+        self.description = discount.companies.description
+        self.working_time = discount.companies.working_time
+        self.address = Address.objects.filter(companies=discount.companies.id)
+        self.socials = Social.objects.filter(companies=discount.companies.id)
+
+
+def toDiscountDetailDto(discount):
+    discount_dto = DiscountDetailDto(discount)
+    return discount_dto

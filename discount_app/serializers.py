@@ -3,7 +3,7 @@ from .models import *
 from .dtos import *
 
 # сериалайзер для class DiscountDto
-class DiscountDtoSerializer(serializers.Serializer):
+class DiscountListDtoSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField(max_length=50)
     image = serializers.CharField(max_length=500)
@@ -12,6 +12,27 @@ class DiscountDtoSerializer(serializers.Serializer):
     value = serializers.IntegerField()
     views_count = serializers.IntegerField()
 
+class AddressSer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+class SocialSer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Social
+        fields = "__all__"
+
+class DiscountDetailDtoSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    value = serializers.IntegerField()
+    views_count = serializers.IntegerField()
+    name = serializers.CharField(max_length=50)
+    image = serializers.CharField(max_length=500)
+    description = serializers.CharField(max_length=100)
+    working_time = serializers.CharField(max_length=50)
+    address = AddressSer(many=True)
+    socials = SocialSer(many=True)
 
 
 class CompanySerializer(serializers.ModelSerializer):

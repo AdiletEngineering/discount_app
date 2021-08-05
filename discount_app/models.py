@@ -69,7 +69,7 @@ class Social(models.Model):
 
 class Review(models.Model):
     users = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name='reviews')
-    discounts = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='reviews1')
+    discounts = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='reviews')
     text = models.TextField("Текст отзыва")
 
 

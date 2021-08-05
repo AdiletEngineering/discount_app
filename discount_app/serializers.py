@@ -12,6 +12,12 @@ class DiscountListDtoSerializer(serializers.Serializer):
     value = serializers.IntegerField()
     views_count = serializers.IntegerField()
 
+class ReviewSer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+
 class AddressSer(serializers.ModelSerializer):
     class Meta:
         model = Address
@@ -34,6 +40,7 @@ class DiscountDetailDtoSerializer(serializers.Serializer):
     working_time = serializers.CharField(max_length=50)
     address = AddressSer(many=True)
     socials = SocialSer(many=True)
+    reviews = ReviewSer(many=True)
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -57,7 +64,3 @@ class DiscountSerializer(serializers.ModelSerializer):
 
 
 
-class ReviewSer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = '__all__'

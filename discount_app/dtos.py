@@ -30,7 +30,7 @@ class DiscountDetailDto:
         self.working_time = discount.companies.working_time
         self.address = Address.objects.filter(companies=discount.companies.id)
         self.socials = Social.objects.filter(companies=discount.companies.id)
-
+        self.reviews = discount.reviews
 
 def toDiscountDetailDto(discount):
     discount_dto = DiscountDetailDto(discount)

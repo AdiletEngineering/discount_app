@@ -13,11 +13,11 @@ from .serializers import *
 @api_view(['GET', 'POST'])
 def discount_list(request):
     if request.method == 'GET':
-
+        city = request.query_params.get('city')
         is_order_by_publish = request.query_params.get('order_by_publish')
         category = request.query_params.getlist('category')
+        discounts = Discount.objects.filter(active=True).order_by('id')
 
-        discounts = Discount.objects.filter(active=True)
         if is_order_by_publish == "true":
             discounts = discounts.order_by('-start_date')
         if category:

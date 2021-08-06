@@ -13,7 +13,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'phone_number')
 
 class DiscountAdmin(admin.ModelAdmin):
-    list_display = ('id', 'categories', 'companies', 'active', 'views_count', 'value', 'terms', 'duration', 'max_coupons', 'pin', 'is_active_every_day', 'start_date', 'end_date')
+    list_display = ('id', 'categories', 'companies', 'active', 'order_num', 'views_count', 'value', 'terms', 'duration', 'max_coupons', 'pin', 'is_active_every_day', 'start_date', 'end_date')
 
 class PhoneAdmin(admin.ModelAdmin):
     list_display = ('id', 'companies', 'number')

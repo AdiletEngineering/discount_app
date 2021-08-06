@@ -35,6 +35,7 @@ class Discount(models.Model):
     categories = models.ForeignKey(to=Category, on_delete=models.DO_NOTHING, related_name='discounts')
     companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='discounts')
     active = models.BooleanField("Скидка активна?", default=True)
+    order_num = models.IntegerField("Кастомный порядковый номер", default=0)
     views_count = models.IntegerField("Количество просмотров")
     value = models.IntegerField("Процент скидки")
     terms= models.TextField("Условия скидки")
@@ -42,8 +43,8 @@ class Discount(models.Model):
     max_coupons = models.IntegerField("максимальное количество купонов")
     pin = models.CharField("Пин код для активации", max_length=4)
     is_active_every_day = models.TextField("акция действует каждый день?")
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
 
     def __str__(self):
         return self.terms
@@ -89,8 +90,8 @@ class Coupon(models.Model):
     users = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name='coupons')
     discounts = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='coupons')
     status = models.CharField("Статус купона", max_length=50)
-    start_time = models.DateField(auto_now_add=True)
-    deadline = models.DateField()
+    start_time = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField()
 
 
 

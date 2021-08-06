@@ -12,13 +12,20 @@ class ReviewSer(serializers.ModelSerializer):
 class AddressSer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = '__all__'
-
+        fields = ('street', 'house', 'latitude', 'longitude')
 
 class SocialSer(serializers.ModelSerializer):
     class Meta:
         model = Social
-        fields = "__all__"
+        fields = ('name', 'image')
+
+
+class CompanySocialsSer(serializers.ModelSerializer):
+    socials = SocialSer()
+    class Meta:
+        model = CompanySocials
+        exclude = ('id', 'companies')
+
 
 
 # сериалайзер для class DiscountDto
@@ -43,8 +50,7 @@ class DiscountDetailDtoSerializer(serializers.Serializer):
     description = serializers.CharField(max_length=100)
     working_time = serializers.CharField(max_length=50)
     address = AddressSer(many=True)
-    socials = SocialSer(many=True)
-    reviews = ReviewSer(many=True)
+    socials = CompanySocialsSer(many=True)
 
 
 class CategorySerializer(serializers.ModelSerializer):

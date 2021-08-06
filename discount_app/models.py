@@ -87,8 +87,8 @@ class Review(models.Model):
 
 
 class Coupon(models.Model):
-    users = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name='coupons')
-    discounts = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='coupons')
+    user = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name='coupons')
+    discount = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='coupons')
     status = models.CharField("Статус купона", max_length=50)
     start_time = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField()

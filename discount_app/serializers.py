@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import *
 from .dtos import *
 
+class UserSer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 
 class ReviewSer(serializers.ModelSerializer):
     class Meta:
@@ -59,5 +64,32 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DiscountSer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = '__all__'
+
+
+class CouponSer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Coupon
+        fields = ('user', 'discount')
+
+
+    def create(self, validated_data):
+        user = validated_data['user']
+        discount = validated_data['discount']
+
+        start_time = datetime.now()
+
+        deadline = discount.duration + start_time
+
+        coupon = Coupon.objects.create(user=user,
+                                       discount=discount,
+                                       deadline=deadline,
+                                       start_time=start_time)
+
+        return coupon
 
 

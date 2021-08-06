@@ -6,4 +6,6 @@ urlpatterns = [
     path('discount/<int:pk>', views.discount_detail),
     path('review/create', views.review_create),
     path('category/list', views.category_list),
+    path('coupon/create', views.coupon_create),
+    path('coupon/activate', views.coupon_activate),
 ]

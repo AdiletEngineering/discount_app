@@ -28,7 +28,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('id', 'users', 'discounts', 'text')
 
 class CouponAdmin(admin.ModelAdmin):
-    list_display = ('id', 'users', 'discounts', 'status', 'start_time', 'deadline')
+    list_display = ('id', 'user', 'discount', 'status', 'start_time', 'deadline')
 
 class CityAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')

@@ -85,13 +85,21 @@ class Review(models.Model):
         return self.text
 
 
+statuses = (
+    ('RESERVED', 'reserved'),
+    ('ACTIVATED', 'activated'),
+    ('EXPIRED', 'expired')
+)
 
 class Coupon(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.DO_NOTHING, related_name='coupons')
     discount = models.ForeignKey(to=Discount, on_delete=models.DO_NOTHING, related_name='coupons')
-    status = models.CharField("Статус купона", max_length=50)
+    status = models.CharField("Статус купона",choices=statuses, max_length=50)
     start_time = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField()
+
+    def __str__(self):
+        return f'это айдишка купона {self.id}'
 
 
 

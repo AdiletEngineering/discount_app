@@ -37,6 +37,15 @@ def toDiscountDetailDto(discount):
     discount_dto = DiscountDetailDto(discount)
     return discount_dto
 
-#
-# class CompanySocialsDTO:
-#     def __init__(self):
+
+class CreatedCouponDTO():
+    def __init__(self, coupon):
+        self.id = coupon.id
+        self.discount_name = coupon.discount.companies.name
+        self.value = coupon.discount.value
+        self.terms = coupon.discount.terms
+        self.deadline = coupon.deadline
+
+def toCreatedCouponDTO(coupon):
+    coupon_dto = CreatedCouponDTO(coupon)
+    return coupon_dto

@@ -67,22 +67,25 @@ def category_list(request):
 @api_view(['GET', 'POST'])
 def coupon_create(request):
     if request.method == 'GET':
-        # print('----->>>', request.data)
         coupons = Coupon.objects.all()
         serializer = CouponSer(coupons, many=True)
         return Response(serializer.data)
+
     elif request.method == 'POST':
         serializer = CouponSer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            # print('======>>>>>', serializer.data)
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            created_coupon = Coupon.objects.get(id=serializer.data.get('id'))
+            coupon_obj = toCreatedCouponDTO(created_coupon)
+            coupon_ser = ReservedCouponSer(coupon_obj)
+            return Response(coupon_ser.data, status=status.HTTP_201_CREATED)
+
+
 
 @api_view(['PUT'])
-def coupon_activate(request, pk):
+def coupon_activate(request, id):
     if request.method == 'PUT':
-        coupon = Coupon.objects.get(id=pk)
-        print('--------->', coupon)
+        coupon = Coupon.objects.get(id=id)
         serializers = CouponSer(coupon, request.data)
         if serializers.is_valid():
             pass

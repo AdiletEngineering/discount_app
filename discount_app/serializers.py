@@ -74,7 +74,7 @@ class CouponSer(serializers.ModelSerializer):
 
     class Meta:
         model = Coupon
-        fields = ('user', 'discount')
+        fields = ('id', 'user', 'discount')
 
 
     def create(self, validated_data):
@@ -87,9 +87,15 @@ class CouponSer(serializers.ModelSerializer):
 
         coupon = Coupon.objects.create(user=user,
                                        discount=discount,
+                                       status='RESERVED',
                                        deadline=deadline,
                                        start_time=start_time)
-
         return coupon
 
 
+class ReservedCouponSer(serializers.Serializer):
+    id = serializers.IntegerField()
+    discount_name = serializers.CharField(max_length=100)
+    value = serializers.IntegerField()
+    terms = serializers.CharField(max_length=500)
+    deadline = serializers.DateTimeField()

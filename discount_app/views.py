@@ -35,6 +35,8 @@ def discount_detail(request, pk):
         discount = Discount.objects.get(pk=pk)
         dto_obj = toDiscountDetailDto(discount)
         serializer = DiscountDetailDtoSerializer(dto_obj)
+        discount.views_count += 1
+        discount.save()
         return Response(serializer.data)
 
 

@@ -71,26 +71,25 @@ class DiscountSer(serializers.ModelSerializer):
 
 
 class CouponSer(serializers.ModelSerializer):
-
     class Meta:
         model = Coupon
         fields = ('id', 'user', 'discount')
 
 
     def create(self, validated_data):
-        user = validated_data['user']
-        discount = validated_data['discount']
+        if Coupon.objects.filter(**validated_data).exists():
+            raise Exception('Coupon already exists')
 
         start_time = datetime.now()
+        deadline = validated_data['discount'].duration + start_time
 
-        deadline = discount.duration + start_time
-
-        coupon = Coupon.objects.create(user=user,
-                                       discount=discount,
+        coupon = Coupon.objects.create(user=validated_data['user'],
+                                       discount=validated_data['discount'],
                                        status='RESERVED',
                                        deadline=deadline,
                                        start_time=start_time)
         return coupon
+
 
 
 class ReservedCouponSer(serializers.Serializer):
@@ -99,3 +98,9 @@ class ReservedCouponSer(serializers.Serializer):
     value = serializers.IntegerField()
     terms = serializers.CharField(max_length=500)
     deadline = serializers.DateTimeField()
+
+
+
+class CouponActivateSer(serializers.Serializer):
+    pin = serializers.CharField(max_length=4)
+

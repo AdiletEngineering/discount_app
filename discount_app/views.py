@@ -46,10 +46,13 @@ def review_create(request):
         serializer = ReviewSer(reviews, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        print('requestdata->', request.data)
         new_review = request.data
         serializer = ReviewSer(data = new_review)
+        print('serializer', serializer)
         if serializer.is_valid():
             serializer.save()
+            print('serializer.data', serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -86,7 +89,12 @@ def coupon_create(request):
 def coupon_activate(request, id):
     if request.method == 'PUT':
         coupon = Coupon.objects.get(id=id)
-        serializers = CouponSer(coupon, request.data)
-        if serializers.is_valid():
-            pass
+        system_pin = coupon.discount.pin
+        pin = request.data.get('pin')
+        if system_pin == pin:
+            coupon.status = 'ACTIVATED'
+            coupon.save()
+            return Response(request.data, status=status.HTTP_200_OK)
+        else:
+            return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 

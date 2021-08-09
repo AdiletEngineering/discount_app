@@ -13,6 +13,7 @@ def timed_job():
     for coupon in coupons:
         if coupon.deadline < timezone.now:
             coupon.status = "EXPIRED"
+            coupon.save()
 
 @sched.scheduled_job('interval', minutes=25)
 def timed_job():

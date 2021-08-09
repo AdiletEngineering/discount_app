@@ -54,13 +54,10 @@ def review_create(request):
         serializer = ReviewSer(reviews, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        print('requestdata->', request.data)
         new_review = request.data
         serializer = ReviewSer(data = new_review)
-        print('serializer', serializer)
         if serializer.is_valid():
             serializer.save()
-            print('serializer.data', serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

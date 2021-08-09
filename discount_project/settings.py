@@ -45,7 +45,8 @@ INSTALLED_APPS = [
 ]
 
 CRONJOBS = [
-    ('*/1 * * * *', 'discount_app.cron.my_scheduled_job')
+    ('*/1 * * * *', 'discount_app.cron.my_scheduled_job'),
+    ('*/25 * * * *', 'discount_app.cron.do_not_sleep'),
 ]
 
 

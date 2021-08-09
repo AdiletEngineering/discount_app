@@ -76,17 +76,22 @@ class CouponSer(serializers.ModelSerializer):
         model = Coupon
         fields = ('id', 'user', 'discount')
 
+    def validate(self, data):
+        coupons_count = Coupon.objects.filter(discount=data['discount']).count()
+        max_val = Discount.objects.get(id=data['discount'].id).max_coupons
+        print(coupons_count, max_val)
+        if coupons_count < max_val:
+            return data
+        raise Exception("достигнут лимит!")
+
 
     def create(self, validated_data):
-
-        start_time = timezone.now()
-        deadline = validated_data['discount'].duration + start_time
+        deadline = validated_data['discount'].duration + datetime.now()
 
         coupon = Coupon.objects.create(user=validated_data['user'],
                                        discount=validated_data['discount'],
                                        status='RESERVED',
-                                       deadline=deadline,
-                                       start_time=start_time)
+                                       deadline=deadline)
         return coupon
 
     def to_representation(self, instance):

@@ -79,9 +79,11 @@ class CouponSer(serializers.ModelSerializer):
     def validate(self, data):
         coupons_count = Coupon.objects.filter(discount=data['discount']).count()
         max_val = Discount.objects.get(id=data['discount'].id).max_coupons
-        print(coupons_count, max_val)
+        disc = Discount.objects.get(id=data['discount'].id)
         if coupons_count < max_val:
             return data
+        disc.active = False
+        disc.save()
         raise Exception("достигнут лимит!")
 
 

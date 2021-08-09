@@ -6,6 +6,7 @@ from discount_app.models import Coupon
 
 def my_scheduled_job():
     coupons = Coupon.objects.all()
+    print('*'*200)
     for coupon in coupons:
         if coupon.deadline < timezone.now:
             coupon.status = "EXPIRED"

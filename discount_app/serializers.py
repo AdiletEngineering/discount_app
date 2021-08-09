@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 from .models import *
 from .dtos import *
@@ -78,7 +79,7 @@ class CouponSer(serializers.ModelSerializer):
 
     def create(self, validated_data):
 
-        start_time = datetime.now()
+        start_time = timezone.now()
         deadline = validated_data['discount'].duration + start_time
 
         coupon = Coupon.objects.create(user=validated_data['user'],

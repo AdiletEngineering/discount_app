@@ -84,7 +84,7 @@ def coupon_create(request):
 
     elif request.method == 'POST':
         try:
-            coupon = Coupon.objects.get(user=request.data['user'], discount=request.data['discount'])
+            coupon = Coupon.objects.get(user=request.data['user'], discount=request.data['discount'], status="RESERVED")
             serializers = CouponSer(coupon)
             return Response(serializers.data, status=status.HTTP_200_OK)
         except:
@@ -104,7 +104,7 @@ def coupon_activate(request, id):
         if system_pin == pin:
             coupon.status = 'ACTIVATED'
             coupon.save()
-            return Response(request.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_200_OK)
         else:
             return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 

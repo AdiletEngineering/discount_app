@@ -35,7 +35,7 @@ class Discount(models.Model):
     categories = models.ForeignKey(to=Category, on_delete=models.DO_NOTHING, related_name='discounts')
     companies = models.ForeignKey(to=Company, on_delete=models.DO_NOTHING, related_name='discounts')
     active = models.BooleanField("Скидка активна?", default=True)
-    order_num = models.IntegerField("Кастомный порядковый номер", default=0)
+    order_num = models.IntegerField("Кастомный порядковый номер скидки", default=0)
     views_count = models.IntegerField("Количество просмотров")
     value = models.IntegerField("Процент скидки")
     terms= models.TextField("Условия скидки")
@@ -45,6 +45,9 @@ class Discount(models.Model):
     is_active_every_day = models.TextField("акция действует каждый день?")
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+
+    class Meta:
+        ordering = ('order_num',)
 
     def __str__(self):
         return self.terms
@@ -105,6 +108,10 @@ class Coupon(models.Model):
 
 class City(models.Model):
     name = models.CharField("Название города", max_length=200)
+    order_num = models.IntegerField("Кастомный порядковый номер ГОРОДА", default=0)
+
+    class Meta:
+        ordering = ('order_num',)
 
     def __str__(self):
         return self.name

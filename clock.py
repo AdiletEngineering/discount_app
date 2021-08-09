@@ -14,7 +14,7 @@ def timed_job():
         if coupon.deadline < timezone.now:
             coupon.status = "EXPIRED"
 
-@sched.scheduled_job('interval', minutes=1)
+@sched.scheduled_job('interval', minutes=25)
 def timed_job():
     r = requests.get('https://discount-adilet.herokuapp.com/')
 

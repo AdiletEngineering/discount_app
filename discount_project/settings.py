@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'discount_app.apps.DiscountAppConfig',
     'rest_framework',
     'django_crontab',
+    'drf_yasg',
 ]
 
 CRONJOBS = [

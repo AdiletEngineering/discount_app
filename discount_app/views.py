@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from itertools import chain
 from .models import *
 from .dtos import *
 from .serializers import *
@@ -16,12 +17,17 @@ def discount_list(request):
         city = request.query_params.get('city')
         is_order_by_publish = request.query_params.get('order_by_publish')
         category = request.query_params.getlist('category')
-        discounts = Discount.objects.filter(active=True).order_by('id')
+
+        discounts = Discount.objects.filter(active=True)
 
         if is_order_by_publish == "true":
             discounts = discounts.order_by('-start_date')
         if category:
             discounts = discounts.filter(categories__id__in=category)
+        if city:
+            discounts_searched = discounts.filter(companies__addresses__cities__id=city).distinct('companies_id')
+            discounts_excluded = discounts.exclude(companies__addresses__cities__id=city)
+            discounts = chain(discounts_searched, discounts_excluded)
 
         dto_object = toDiscountListDto(discounts)
         serializer = DiscountListDtoSerializer(dto_object, many=True)
@@ -77,13 +83,15 @@ def coupon_create(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = CouponSer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            created_coupon = Coupon.objects.get(id=serializer.data.get('id'))
-            coupon_obj = toCreatedCouponDTO(created_coupon)
-            coupon_ser = ReservedCouponSer(coupon_obj)
-            return Response(coupon_ser.data, status=status.HTTP_201_CREATED)
+        try:
+            coupon = Coupon.objects.get(user=request.data['user'], discount=request.data['discount'])
+            serializers = CouponSer(coupon)
+            return Response(serializers.data, status=status.HTTP_200_OK)
+        except:
+            serializer = CouponSer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 
